@@ -1,8 +1,11 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 1;
+    public GameObject    bullet;
+    public float         speed = 1;
+    public float         bulletSpeed;
 
     private Vector2 _horizontalArea;
     private Vector2 _verticalArea;
@@ -16,29 +19,53 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 locomotion = Vector3.right * (Input.GetAxis("Horizontal") * Time.deltaTime * speed);
+        locomotion(Vector3.right * (Input.GetAxis("Horizontal") * Time.deltaTime * speed));
 
-        if (locomotion.x != 0)
+        if (Input.GetButtonDown("Fire1"))
         {
-            if (locomotion.x > 0)
+            Fire();
+        }
+    }
+
+    private void Fire()
+    {
+        GameObject tempBullet = Instantiate(bullet, transform.position, Quaternion.identity);
+        
+        tempBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * bulletSpeed);
+    }
+
+    private void locomotion(Vector3 direction)
+    {
+        if (direction.x != 0)
+        {
+            if (direction.x > 0)
             {
                 if (transform.position.x > _horizontalArea.y)
                 {
-                    locomotion.x = 0;
+                    direction.x = 0;
                 }
             }
             else
             {
                 if (transform.position.x < _horizontalArea.x)
                 {
-                    locomotion.x = 0;
+                    direction.x = 0;
                 }
             }
         }
 
-        transform.Translate(locomotion);
+        transform.Translate(direction);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        switch (other.tag)
+        {
+            case "Hazard":
+                other.GetComponent<Hazard>().TakeDestroy();
+                break;
+        }
+    }
 
     public void SetLocomotionAreaLimit(float minHorizontal = 0,float maxHorizontal = 0, float minVertical = 0,float maxVertical = 0)
     {

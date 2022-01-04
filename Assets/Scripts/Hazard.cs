@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,7 +22,7 @@ public class Hazard : MonoBehaviour
 
         if (transform.position.y < _deadArea)
         {
-            Destroy(gameObject);
+            TakeDestroy();
         }
     }
 
@@ -29,5 +30,31 @@ public class Hazard : MonoBehaviour
     {
         _deadArea = height;
     }
+
+    public void TakeDestroy()
+    {
+        Destroy(gameObject);
+    }
     
+    private void OnTriggerEnter(Collider other)
+    {
+        switch (other.tag)
+        {
+            case "Bullet":
+                TakeDestroy();
+                Destroy(other.gameObject);
+                break;
+        }
+    }
+
+    /*private void OnCollisionEnter(Collision other)
+    {
+        switch (other.gameObject.tag)
+        {
+            case "Bullet":
+                TakeDestroy();
+                Destroy(other.gameObject);
+                break;
+        }
+    }*/
 }
