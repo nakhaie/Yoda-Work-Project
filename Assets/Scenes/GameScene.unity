@@ -506,7 +506,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullet: {fileID: 6372531142414813690, guid: 0bb5379c29f143744a6ee2c646383e1e, type: 3}
   speed: 5
-  bulletSpeed: 100
+  bulletSpeed: 500
 --- !u!54 &1024280886
 Rigidbody:
   m_ObjectHideFlags: 0
