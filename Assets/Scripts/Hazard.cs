@@ -42,7 +42,7 @@ public class Hazard : MonoBehaviour
         {
             case "Bullet":
                 TakeDestroy();
-                Destroy(other.gameObject);
+                other.gameObject.SetActive(false);
                 break;
         }
     }

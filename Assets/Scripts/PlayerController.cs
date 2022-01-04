@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -6,15 +7,30 @@ public class PlayerController : MonoBehaviour
     public GameObject    bullet;
     public float         speed = 1;
     public float         bulletSpeed;
+    public float         bulletRang = 4;
 
     private Vector2 _horizontalArea;
     private Vector2 _verticalArea;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
 
+    private List<GameObject> _bulletStash;
+
+    private void Awake()
+    {
+        _bulletStash = new List<GameObject>();
     }
+
+    // Start is called before the first frame update
+    private void Start()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            GameObject unit = Instantiate(bullet, transform.position, Quaternion.identity);
+            
+            _bulletStash.Add(unit);
+            unit.SetActive(false);
+        }
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -25,13 +41,58 @@ public class PlayerController : MonoBehaviour
         {
             Fire();
         }
+
+        CheckBullets();
     }
 
     private void Fire()
     {
-        GameObject tempBullet = Instantiate(bullet, transform.position, Quaternion.identity);
+        GameObject tempBullet = TakeBullet(); //Instantiate(bullet, transform.position, Quaternion.identity);
         
+        tempBullet.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        tempBullet.SetActive(true);
+        tempBullet.transform.position = transform.position;
         tempBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * bulletSpeed);
+    }
+    
+    private GameObject TakeBullet()
+    {
+        GameObject tempBullet = null;
+        
+        foreach (var unit in _bulletStash)
+        {
+            if (!unit.activeSelf)
+            {
+                tempBullet = unit;
+                break;
+            }
+        }
+
+        if (tempBullet == null)
+        {
+            GameObject unit = Instantiate(bullet, transform.position, Quaternion.identity);
+            
+            _bulletStash.Add(unit);
+            unit.SetActive(false);
+
+            tempBullet = unit;
+        }
+
+        return tempBullet;
+    }
+    
+    private void CheckBullets()
+    {
+        foreach (var unit in _bulletStash)
+        {
+            if (unit.activeSelf)
+            {
+                if (Mathf.Abs(unit.transform.position.y - transform.position.y)  > bulletRang)
+                {
+                    unit.SetActive(false);
+                }
+            }
+        }
     }
 
     private void locomotion(Vector3 direction)
