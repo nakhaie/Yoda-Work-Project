@@ -75,6 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdfdccbe5aa66084cb8df86e3f051bbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animatorPlayer: {fileID: 5102774518343433689}
   bullet: {fileID: 6372531142414813690, guid: 0bb5379c29f143744a6ee2c646383e1e, type: 3}
   speed: 5
   bulletSpeed: 500
@@ -150,6 +151,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 2e9c70f1d4d952d468f485be07800f25, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: a148871f89c916f4e98b6b774ac52343, type: 2}
     - target: {fileID: 10800000, guid: 2e9c70f1d4d952d468f485be07800f25, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -159,5 +164,10 @@ PrefabInstance:
 --- !u!4 &5102774518335705661 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400004, guid: 2e9c70f1d4d952d468f485be07800f25, type: 3}
+  m_PrefabInstance: {fileID: 5102774518336096441}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &5102774518343433689 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9500000, guid: 2e9c70f1d4d952d468f485be07800f25, type: 3}
   m_PrefabInstance: {fileID: 5102774518336096441}
   m_PrefabAsset: {fileID: 0}

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public Animator      animatorPlayer;
     public GameObject    bullet;
     public float         speed = 1;
     public float         bulletSpeed;
@@ -40,6 +41,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             Fire();
+            animatorPlayer.SetTrigger("Shoot");
         }
 
         CheckBullets();
