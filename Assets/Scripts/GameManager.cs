@@ -7,27 +7,33 @@ public class GameManager : MonoBehaviour
     private float             _viewportHeight;
     private Camera            _mainCamera;
     private PlayerController  _player;
+    private HazardController  _hazardController;
 
-    void Awake()
+    private void Awake()
     {
-        _mainCamera     = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        //_mainCamera   = FindObjectOfType<Camera>();
-
-        _player         = FindObjectOfType<PlayerController>();
+        //_mainCamera     = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        
+        _mainCamera       = FindObjectOfType<Camera>();
+        _player           = FindObjectOfType<PlayerController>();
+        _hazardController = FindObjectOfType<HazardController>();
             
         _viewportHeight = _mainCamera.orthographicSize;
     }
     
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
+        Vector3 cameraPosition = _mainCamera.transform.position;
+        
         _player.SetLocomotionAreaLimit(_viewportHeight * -1, _viewportHeight);
 
-        SetBackground(_mainCamera.transform.position, _mainCamera.farClipPlane, Vector2.one * _viewportHeight * 2);
+        SetBackground(cameraPosition, _mainCamera.farClipPlane, Vector2.one * _viewportHeight * 2);
+        
+        _hazardController.Init(_viewportHeight, cameraPosition, _player.transform.position);
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         
     }

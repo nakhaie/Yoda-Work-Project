@@ -5,16 +5,29 @@ using UnityEngine;
 public class Hazard : MonoBehaviour
 {
     public float speed = 1;
+
+    private float _deadArea;
     
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         transform.Translate(Vector3.down * Time.deltaTime * speed);
+
+        if (transform.position.y < _deadArea)
+        {
+            Destroy(gameObject);
+        }
     }
+
+    public void SetDeadArea(float height)
+    {
+        _deadArea = height;
+    }
+    
 }
