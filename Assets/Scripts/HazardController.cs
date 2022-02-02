@@ -13,7 +13,9 @@ public class HazardController : MonoBehaviour
     private float _curCooldown;
 
     private float _hazardDestroyArea;
-    
+
+    private float _score;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -39,6 +41,8 @@ public class HazardController : MonoBehaviour
             
             _curCooldown = 0;
         }
+
+        _score = Time.time;
     }
 
     public void Init(float cameraSize, Vector3 cameraPosition,Vector3 playerPosition)

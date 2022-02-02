@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     private Camera            _mainCamera;
     private PlayerController  _player;
     private HazardController  _hazardController;
+    private UIController _uIController;
 
     private void Awake()
     {
@@ -16,7 +17,8 @@ public class GameManager : MonoBehaviour
         _mainCamera       = FindObjectOfType<Camera>();
         _player           = FindObjectOfType<PlayerController>();
         _hazardController = FindObjectOfType<HazardController>();
-            
+        _uIController     = FindObjectOfType<UIController>();
+
         _viewportHeight = _mainCamera.orthographicSize;
     }
     
@@ -35,7 +37,19 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.Backspace))
+        {
+            if(Time.timeScale > 0)
+            {
+                Time.timeScale = 0;
+                _uIController.SetPause(true);
+            }
+            else
+            {
+                Time.timeScale = 1;
+                _uIController.SetPause(false);
+            }
+        }
     }
 
     private void SetBackground(Vector3 cameraPosition, float cameraFarDistance, Vector2 viewportSize)

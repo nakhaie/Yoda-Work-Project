@@ -9,15 +9,26 @@ public class PlayerController : MonoBehaviour
     public float         speed = 1;
     public float         bulletSpeed;
     public float         bulletRang = 4;
+    public int           maxHp = 3;
 
     private Vector2 _horizontalArea;
     private Vector2 _verticalArea;
 
     private List<GameObject> _bulletStash;
 
+    private AudioManager _audioManager;
+    private UIController _uIController;
+
+    private int _hp;
+
     private void Awake()
     {
+        _hp = maxHp;
+
         _bulletStash = new List<GameObject>();
+
+        _audioManager = FindObjectOfType<AudioManager>();
+        _uIController = FindObjectOfType<UIController>();
     }
 
     // Start is called before the first frame update
@@ -55,6 +66,8 @@ public class PlayerController : MonoBehaviour
         tempBullet.SetActive(true);
         tempBullet.transform.position = transform.position;
         tempBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * bulletSpeed);
+
+        _audioManager.Shooting();
     }
     
     private GameObject TakeBullet()
@@ -126,8 +139,24 @@ public class PlayerController : MonoBehaviour
         {
             case "Hazard":
                 other.GetComponent<Hazard>().TakeDestroy();
+                _hp--;
+
+                _uIController.SetHp(_hp,maxHp);
+
+                if (_hp < 1)
+                {
+                    PlayerDied();
+                }
+
                 break;
         }
+    }
+
+    private void PlayerDied()
+    {
+        Time.timeScale = 0;
+        _audioManager.GameOver();
+        _uIController.GameOver();
     }
 
     public void SetLocomotionAreaLimit(float minHorizontal = 0,float maxHorizontal = 0, float minVertical = 0,float maxVertical = 0)
